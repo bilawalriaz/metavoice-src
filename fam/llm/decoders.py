@@ -3,7 +3,7 @@ import pathlib
 import uuid
 from abc import ABC, abstractmethod
 from typing import Callable, Optional
-
+import platform # Used to detect if we're running on a Mac
 import julius
 import torch
 from audiocraft.data.audio import audio_read, audio_write
@@ -55,7 +55,7 @@ class EncodecDecoder(Decoder):
             wav = julius.resample_frac(wav, sr, self._mbd_sample_rate)
         if wav.ndim == 2:
             wav = wav.unsqueeze(1)
-        wav = wav.to("cuda")
+        wav = wav.to("mps")
         tokens = self.mbd.codec_model.encode(wav)
         tokens = tokens[0][0]
 
@@ -68,8 +68,9 @@ class EncodecDecoder(Decoder):
         text_ids, extracted_audio_ids = self._data_adapter_fn(tokens)
         text = self.tokeniser_decode_fn(text_ids)
         print(f"Text: {text}")
-
-        tokens = torch.tensor(extracted_audio_ids, device="cuda").unsqueeze(0)
+        if platform.system() == 'Darwin':  # Darwin is the name for the Mac OS X operating system
+                device = 'mps'
+        tokens = torch.tensor(extracted_audio_ids, device=device).unsqueeze(0)
 
         if tokens.shape[1] < self._num_codebooks:
             tokens = torch.cat(
@@ -79,7 +80,7 @@ class EncodecDecoder(Decoder):
         if causal:
             return tokens
         else:
-            with torch.amp.autocast(device_type="cuda", dtype=torch.float32):
+            with torch.amp.autocast(device_type="mps", dtype=torch.float32):
                 wav = self.mbd.tokens_to_wav(tokens)
             # NOTE: we couldn't just return wav here as it goes through loudness compression etc :)
 

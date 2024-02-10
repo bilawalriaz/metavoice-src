@@ -357,7 +357,7 @@ class CausalInferenceMixin:
                 kv_batch_size = 2 * kv_batch_size
 
             if self.kv_cache_enabled:
-                print("!!!! USING KV-CACHING ASSUMED TORCH.BFLOAT16")
+                print("!!!! USING KV-CACHING ASSUMED TORCH.FLOAT32")
                 self.empty_kv_cache(
                     batch_size=kv_batch_size,
                     kv_cache_maxlen=self.config.block_size,

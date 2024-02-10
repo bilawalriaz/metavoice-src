@@ -154,6 +154,10 @@ class Model:
                 self.model.enable_kv_cache()
                 for block in self.model.transformer.h:
                     block.attn.attn_kernel_type = "fd"
+            elif self.use_kv_cache == "torch_attn":
+                self.model.enable_kv_cache()
+                for block in self.model.transformer.h:
+                    block.attn.attn_kernel_type = "torch_attn"
             elif self.use_kv_cache == "vanilla":
                 for block in self.model.transformer.h:
                     if block.attn.attn_kernel_type != "fa2":
@@ -642,7 +646,7 @@ class SamplingControllerConfig:
     init_from: str = "resume"
     """Either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')."""
 
-    use_kv_cache: Optional[Literal["flash_decoding", "vanilla"]] = "none"
+    use_kv_cache: Optional[Literal["flash_decoding", "vanilla", "torch_attn"]] = "torch_attn"
     """Type of kv caching to use for inference: 1) [none] no kv caching, 2) [flash_decoding] use the 
     flash decoding kernel, 3) [vanilla] use flash attention 2 with hand implemented kv-cache."""
 

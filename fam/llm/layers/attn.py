@@ -242,7 +242,7 @@ class SelfAttention(nn.Module):
 
         # causal self-attention;
         if self.attn_kernel_type == "fa2":
-            y = self._fa2_attention(c_x)
+            y = self._torch_attn(c_x) #forcing
         elif self.attn_kernel_type == "fd":
             y = self._fd_attention(c_x)
         elif self.attn_kernel_type == "torch_attn":
