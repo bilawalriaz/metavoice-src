@@ -43,7 +43,7 @@ class GPTConfig:
     nonlinearity_type: str = "gelu"  # "gelu" or "swiglu"
     swiglu_multiple_of: Optional[int] = None  # MLP hidden layer (using SwiGLU) will be multiple of this
     attn_kernel_type: Literal["fa2", "torch_attn", "hand"] = "fa2"
-    kv_cache_enabled: bool = False  # whether to use key-value cache for attention
+    kv_cache_enabled: bool = True  # whether to use key-value cache for attention
 
 
 def _check_speaker_emb_dims(

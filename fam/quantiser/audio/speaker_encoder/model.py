@@ -1,7 +1,7 @@
 import os
 from time import perf_counter as timer
 from typing import List, Optional, Union
-
+import platform # Used to detect if user is running on a Mac
 import librosa
 import numpy as np
 import torch
@@ -37,7 +37,12 @@ class SpeakerEncoder(nn.Module):
 
         # Get the target device
         if device is None:
-            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            if platform.system() == 'Darwin':  # Darwin is the name for the Mac OS X operating system
+                device = torch.device('mps')
+                print(device)
+                print('USING MPS')
+            else:
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         elif isinstance(device, str):
             device = torch.device(device)
         self.device = device

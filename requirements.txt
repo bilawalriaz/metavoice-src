@@ -1,4 +1,5 @@
 torch>=2.1.0
+#packaging
 transformers
 librosa
 tqdm
@@ -6,7 +7,7 @@ tiktoken==0.5.1
 audiocraft
 numpy<1.25
 ninja
-flash-attn
+#flash-attn
 fastapi
 uvicorn
 tyro

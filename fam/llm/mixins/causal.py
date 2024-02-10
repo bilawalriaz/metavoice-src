@@ -361,7 +361,7 @@ class CausalInferenceMixin:
                 self.empty_kv_cache(
                     batch_size=kv_batch_size,
                     kv_cache_maxlen=self.config.block_size,
-                    dtype=torch.bfloat16,
+                    dtype=torch.float32,
                 )
 
             batch_seq_lens = seq_lens[start_index:end_index]

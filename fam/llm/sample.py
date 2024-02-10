@@ -627,10 +627,10 @@ class SamplingControllerConfig:
     seed: int = 1337
     """Random seed for sampling."""
 
-    device: Literal["cuda", "cpu"] = "cuda"
+    device: Literal["cuda", "mps", "cpu"] = "mps"
     """Device to use for sampling."""
 
-    dtype: Literal["bfloat16", "float16", "float32", "tfloat32"] = "bfloat16"
+    dtype: Literal["bfloat16", "float16", "float32", "tfloat32"] = "float32"
     """Data type to use for sampling."""
 
     compile: bool = False
@@ -642,7 +642,7 @@ class SamplingControllerConfig:
     init_from: str = "resume"
     """Either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')."""
 
-    use_kv_cache: Optional[Literal["flash_decoding", "vanilla"]] = None
+    use_kv_cache: Optional[Literal["flash_decoding", "vanilla"]] = "none"
     """Type of kv caching to use for inference: 1) [none] no kv caching, 2) [flash_decoding] use the 
     flash decoding kernel, 3) [vanilla] use flash attention 2 with hand implemented kv-cache."""
 

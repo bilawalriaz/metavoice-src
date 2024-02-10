@@ -1,10 +1,10 @@
 import torch
 import torch.nn as nn
-from flash_attn import (  # type: ignore
-    flash_attn_func,
-    flash_attn_qkvpacked_func,
-    flash_attn_with_kvcache,
-)
+#from flash_attn import (  # type: ignore
+#    flash_attn_func,
+#    flash_attn_qkvpacked_func,
+#    flash_attn_with_kvcache
+#)
 
 
 class SelfAttention(nn.Module):
